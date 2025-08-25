@@ -11,55 +11,96 @@
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
     <style>
-      html{
+      html {
         scroll-behavior: smooth;
       }
+
+      /* Swiper Container */
       .swiper {
-        width: 80%;
-        padding: 100px 0;
+        width: 90%;
+        max-width: 1600px;
+        padding: 60px 0;
+        margin: 0 auto; /* center align */
       }
+
+      /* Special second swiper variant */
       .swiper.swiper2 {
         width: 100%;
         padding: 0;
       }
-      @media (max-width: 768px) {
-        .swiper {
-          width: 100%;
-          padding: 50px 0;
-        }
-        .swiper-button-next,
-        .swiper-button-prev {
-          display: none !important;
-        }
-      }
-      .swiper.swiper2 .swiper-slide {
+
+      /* Slide base */
+      .swiper-slide {
         position: relative;
-        width: 830px;
+        width: 100%;
+        max-width: 400px; /* default for small screens */
         aspect-ratio: 3/4;
+        border-radius: 14px;
         display: flex;
         justify-content: center;
         align-items: center;
       }
-      .swiper-slide {
-        position: relative;
-        width: 320px;
-        aspect-ratio: 3/4;
-        border-radius: 14px;
+
+      /* Bigger slides on larger screens */
+      @media (min-width: 768px) {
+        .swiper-slide {
+          max-width: 300px;
+        }
       }
+      @media (min-width: 1200px) and (max-width: 1300px) {
+        .swiper-slide {
+          max-width: 200px;
+        }
+      }
+      @media (min-width: 1300) and (max-width: 1600px) {
+        .swiper-slide {
+          max-width: 500px;
+        }
+      }
+      @media (min-width: 1600px) {
+        .swiper-slide {
+          min-width: 250px;
+        }
+      }
+      @media (min-width: 2400px) {
+        .swiper-slide {
+          min-width: 350px;
+        }
+        .swiper {
+          width: 100%;
+          max-width: 2000px;
+        }
+      }
+      @media (min-width: 2700px) {
+        .swiper-slide {
+          min-width: 450px;
+        }
+      }
+
+      /* Variant for swiper2 (if you use it) */
+      .swiper.swiper2 .swiper-slide {
+        max-width: 830px;
+        max-height: 600px !important;
+        aspect-ratio: 3/4;
+      }
+
+  
+
+      /* Slide images */
       .swiper-slide img {
         display: block;
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: fill; /* keeps images natural (no stretching/thin look) */
         border-radius: inherit;
         user-select: none;
       }
+
+      /* Pagination */
       .swiper-pagination {
-        --swiper-pagination-bottom: -6px;
-      }
-      .swiper.swiper2 .swiper-pagination {
         --swiper-pagination-bottom: 10px;
       }
+
       .swiper-pagination-bullet {
         width: 15px;
         height: 15px;
@@ -67,13 +108,7 @@
         background: #5956e9;
         transition: all 0.3s ease-in-out;
       }
-      .swiper2 .swiper-pagination-bullet {
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-        background: white;
-        transition: all 0.3s ease-in-out;
-      }
+
       .swiper-pagination-bullet-active {
         width: 18px;
         border: 1px solid #5956e9;
@@ -81,40 +116,69 @@
         border-radius: 14px;
       }
 
-      /* Base styles for both buttons */
+      /* Swiper2 pagination (white bullets) */
+      .swiper2 .swiper-pagination-bullet {
+        background: white;
+      }
+
+      /* Navigation Buttons */
       .swiper-button-next,
       .swiper-button-prev {
-        width: 84px;
-        height: 84px;
-        border: 2px solid #2563eb; /* Tailwind blue-600 */
+        width: 74px;
+        height: 74px;
+        border: 2px solid #2563eb;
         border-radius: 50%;
         background-color: #fff;
-        color: #2563eb; /* arrow color */
+        color: #2563eb;
         display: flex;
         justify-content: center;
         align-items: center;
         transition: all 0.3s ease;
       }
 
-      /* Active (when clicked/pressed) */
-      .swiper-button-next:active,
-      .swiper-button-prev:active {
-        background-color: #2563eb;
-        color: #fff; /* arrow becomes white */
+      @media (min-width: 768px) and (max-width: 1420px) {
+        .swiper-button-next,
+        .swiper-button-prev {
+          width: 54px;
+          height: 54px;
+          border: 2px solid #2563eb;
+          border-radius: 50%;
+          background-color: #fff;
+          color: #2563eb;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transition: all 0.3s ease;
+        }
       }
 
-      /* Optional: on hover for better UX */
       .swiper-button-next:hover,
       .swiper-button-prev:hover {
         background-color: #2563eb;
         color: #fff;
       }
 
-      /* Adjust default arrow size */
+      .swiper-button-next:active,
+      .swiper-button-prev:active {
+        background-color: #2563eb;
+        color: #fff;
+      }
+
+      /* Arrow size */
       .swiper-button-next::after,
       .swiper-button-prev::after {
         font-size: 28px;
       }
+
+      /* Hide buttons on mobile */
+      @media (max-width: 768px) {
+        .swiper-button-next,
+        .swiper-button-prev {
+          display: none !important;
+        }
+      }
+
+      /* Remove default 3D shadows */
       .swiper-3d .swiper-slide-shadow-left,
       .swiper-3d .swiper-slide-shadow-right {
         background-image: none !important;
@@ -155,33 +219,53 @@
 
       <!--navbar mobile starts-->
       <nav
-      class="lg:hidden block bg-white h-[2.55rem] rounded-md 2xl:px-12 lg:px-6 px-2 flex justify-between items-center"
-    >
-      <div id="hamburger" class="cursor-pointer">
-        <img src="./assets/hamburger.svg" alt="hamburger" />
-      </div>
-      <div class="ml-7 md:ml-0">
-        <img src="./assets/mobile logo.svg" alt="logo" class="mt-2" />
-      </div>
-      <a
-        class="bg-[#5956E9] text-white w-[4.7rem] h-auto py-2 rounded-md flex items-center justify-center"
+        class="lg:hidden block bg-white h-[2.55rem] rounded-md 2xl:px-12 lg:px-6 px-2 flex justify-between items-center"
       >
-        <p class="text-center h-full text-xs">Download</p>
-      </a>
-    </nav>
-    
-    <!-- Mobile Menu -->
-    <div
-      id="mobileMenu"
-      class="w-full uppercase font-semibold h-auto lg:hidden bg-white mt-10 py-4 flex flex-col gap-3 px-4 overflow-hidden max-h-0 opacity-0 transition-all duration-500 ease-in-out"
-    >
-      <a href="#blog" class="active:text-[#5956E9] active:underline active:underline-offset-4">Blog</a>
-      <a href="#features" class="active:text-[#5956E9] active:underline active:underline-offset-4">Features</a>
-      <a href="#about" class="active:text-[#5956E9] active:underline active:underline-offset-4">About</a>
-      <a href="#screenshot" class="active:text-[#5956E9] active:underline active:underline-offset-4">Screenshot</a>
-      <a href="#download" class="bg-[#5956E9] text-white w-[8.7rem] h-auto py-2 rounded-md flex items-center justify-center">Download</a>
-    </div>
-    
+        <div id="hamburger" class="cursor-pointer">
+          <img src="./assets/hamburger.svg" alt="hamburger" />
+        </div>
+        <div class="ml-7 md:ml-0">
+          <img src="./assets/mobile logo.svg" alt="logo" class="mt-2" />
+        </div>
+        <a
+          class="bg-[#5956E9] text-white w-[4.7rem] h-auto py-2 rounded-md flex items-center justify-center"
+        >
+          <p class="text-center h-full text-xs">Download</p>
+        </a>
+      </nav>
+
+      <!-- Mobile Menu -->
+      <div
+        id="mobileMenu"
+        class="w-full uppercase font-semibold h-auto lg:hidden bg-white mt-10 py-4 flex flex-col gap-3 px-4 overflow-hidden max-h-0 opacity-0 transition-all duration-500 ease-in-out"
+      >
+        <a
+          href="#blog"
+          class="active:text-[#5956E9] active:underline active:underline-offset-4"
+          >Blog</a
+        >
+        <a
+          href="#features"
+          class="active:text-[#5956E9] active:underline active:underline-offset-4"
+          >Features</a
+        >
+        <a
+          href="#about"
+          class="active:text-[#5956E9] active:underline active:underline-offset-4"
+          >About</a
+        >
+        <a
+          href="#screenshot"
+          class="active:text-[#5956E9] active:underline active:underline-offset-4"
+          >Screenshot</a
+        >
+        <a
+          href="#download"
+          class="bg-[#5956E9] text-white w-[8.7rem] h-auto py-2 rounded-md flex items-center justify-center"
+          >Download</a
+        >
+      </div>
+
       <!--navbar mobile ends-->
 
       <!--navbar dekstop starts-->
@@ -190,8 +274,16 @@
       >
         <div class="uppercase flex gap-10 items-center h-full font-semibold">
           <a class="text-[#5956E9] underline-offset-4" href="#home"> Home </a>
-          <a href="#about" class="active:text-[#5956E9] focus:text-[#5956E9] focus:underline focus:underline-offset-4">About</a>
-          <a href="#features" class="active:text-[#5956E9] focus:text-[#5956E9] focus:underline focus:underline-offset-4">Features</a>
+          <a
+            href="#about"
+            class="active:text-[#5956E9] focus:text-[#5956E9] focus:underline focus:underline-offset-4"
+            >About</a
+          >
+          <a
+            href="#features"
+            class="active:text-[#5956E9] focus:text-[#5956E9] focus:underline focus:underline-offset-4"
+            >Features</a
+          >
         </div>
 
         <div class="flex justify-center items-center">
@@ -199,9 +291,21 @@
         </div>
 
         <div class="uppercase flex gap-10 items-center h-full font-semibold">
-          <a href="#screenshot" class="active:text-[#5956E9] focus:text-[#5956E9] focus:underline focus:underline-offset-4"> Screenshot </a>
-          <a href="#blog" class="active:text-[#5956E9] focus:text-[#5956E9] focus:underline focus:underline-offset-4">Blog</a>
-          <a class="bg-[#5956E9] text-white px-6 h-10 rounded-md" href="#download">
+          <a
+            href="#screenshot"
+            class="active:text-[#5956E9] focus:text-[#5956E9] focus:underline focus:underline-offset-4"
+          >
+            Screenshot
+          </a>
+          <a
+            href="#blog"
+            class="active:text-[#5956E9] focus:text-[#5956E9] focus:underline focus:underline-offset-4"
+            >Blog</a
+          >
+          <a
+            class="bg-[#5956E9] text-white px-6 h-10 rounded-md"
+            href="#download"
+          >
             <p class="flex items-center h-full">Download</p>
           </a>
         </div>
@@ -228,7 +332,9 @@
               Exercitation veniam consequat sunt nostrud amet.
             </p>
 
-            <p class="mt-8 md:text-2xl 2xl:text-3xl text-xl">DOWNLOAD APP NOW</p>
+            <p class="mt-8 md:text-2xl 2xl:text-3xl text-xl">
+              DOWNLOAD APP NOW
+            </p>
 
             <div class="flex mt-5 md:gap-4 lg:gap-4 gap-2">
               <img src="./assets/google play.svg" alt="google play" />
@@ -269,7 +375,7 @@
 
         <div class="lg:mt-0 mt-8 flex flex-col items-center lg:gap-8 gap-6">
           <div
-            class="lg:w-[35.6rem] md:w-[30rem] w-[22rem] rounded-xl bg-white shadow-md border border-[#E5E5E5] py-5 px-5"
+            class="2xl:w-[35.6rem] md:w-[30rem] w-[22rem] rounded-xl bg-white shadow-md border border-[#E5E5E5] py-5 px-5"
           >
             <div class="flex gap-4">
               <img
@@ -290,7 +396,7 @@
           </div>
 
           <div
-            class="lg:w-[35.6rem] md:w-[30rem] w-[22rem] rounded-xl bg-white shadow-md border border-[#E5E5E5] py-5 px-5"
+            class="2xl:w-[35.6rem] md:w-[30rem] w-[22rem] rounded-xl bg-white shadow-md border border-[#E5E5E5] py-5 px-5"
           >
             <div class="flex gap-4">
               <img
@@ -311,7 +417,7 @@
           </div>
 
           <div
-            class="lg:w-[35.6rem] md:w-[30rem] w-[22rem] rounded-xl bg-white shadow-md border border-[#E5E5E5] py-5 px-5"
+            class="2xl:w-[35.6rem] md:w-[30rem] w-[22rem] rounded-xl bg-white shadow-md border border-[#E5E5E5] py-5 px-5"
           >
             <div class="flex gap-4">
               <img
@@ -349,7 +455,7 @@
         </h3>
         <div class="w-full flex justify-center">
           <p
-            class="text-center text-white pt-5 lg:w-1/3 px-6 leading-7 text-base"
+            class="text-center text-white pt-5 2xl:w-1/3 lg:w-1/2 px-6 leading-7 text-base"
           >
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra
             nunc ante velit vitae. Est tellus vitae, nullam lobortis enim.
@@ -360,13 +466,17 @@
       </div>
 
       <!--top text-->
-      <div class="mt-17 flex flex-col items-center justify-center">
+      <div
+        class="mt-17 flex flex-col items-center justify-center lg:pb-7 pb-20"
+      >
         <div>
           <div class="flex justify-center">
             <img src="./assets/comment.svg" alt="comment" />
           </div>
           <div class="flex justify-center flex-col items-center">
-            <p class="lg:text-3xl text-xl text-white mt-7 font-semibold">
+            <p
+              class="2xl:text-3xl lg:text-2xl text-xl text-white mt-7 font-semibold"
+            >
               FULL FREE CHAT
             </p>
             <p class="text-white w-full lg:text-base text-sm mt-4">
@@ -384,7 +494,9 @@
       >
         <!--first coolumn-->
 
-        <div class="flex flex-col lg:gap-85 gap-20 mt-25">
+        <div
+          class="flex flex-col lg:gap-50 2xl:gap-85 gap-20 2xl:mt-1 lg:mt-10"
+        >
           <div>
             <div class="flex lg:justify-end justify-center">
               <img src="./assets/surface1.svg" alt="comment" />
@@ -392,7 +504,9 @@
             <div
               class="flex lg:justify-end justify-center flex-col lg:items-end items-center"
             >
-              <p class="lg:text-3xl text-xl text-white mt-7 font-semibold">
+              <p
+                class="2xl:text-3xl lg:text-2xl text-xl text-white mt-7 font-semibold"
+              >
                 UNLIMITED FEATURES
               </p>
               <p class="text-white w-full lg:text-base text-sm mt-4">
@@ -411,7 +525,9 @@
             <div
               class="flex lg:justify-end justify-center flex-col lg:items-end items-center"
             >
-              <p class="lg:text-3xl text-xl text-white mt-7 font-semibold">
+              <p
+                class="2xl:text-3xl lg:text-2xl text-xl text-white mt-7 font-semibold"
+              >
                 AWESOME UI DESIGN
               </p>
               <p class="text-white w-full lg:text-base text-sm mt-4">
@@ -426,12 +542,18 @@
 
         <!--image-->
         <div class="ml-15 mt-12 lg:ml-0 lg:-mt-5">
-          <img src="./assets/features mobile.svg" alt="phone" />
+          <img
+            src="./assets/features mobile.svg"
+            alt="phone"
+            class="lg:w-[25rem] 2xl:w-full"
+          />
         </div>
 
         <!--second column-->
-        <div class="flex flex-col lg:gap-85 gap-20 lg:mt-25 lg:-ml-19">
-          <div>
+        <div
+          class="flex flex-col lg:gap-50 2xl:gap-85 lg:-ml-12 2xl:-ml-19 2xl:mt-1 lg:mt-10"
+        >
+          <div class="lg:pb-0 pb-20">
             <div class="flex lg:justify-start justify-center">
               <img src="./assets/phone.svg" alt="comment" />
             </div>
@@ -439,7 +561,7 @@
               class="flex lg:justify-start justify-center flex-col lg:items-start items-center"
             >
               <p
-                class="lg:text-3xl text-xl text-white mt-7 font-semibold uppercase"
+                class="2xl:text-3xl lg:text-2xl text-xl text-white mt-7 font-semibold uppercase"
               >
                 iso & android version
               </p>
@@ -454,12 +576,14 @@
 
           <div>
             <div class="flex lg:justify-start justify-center">
-              <img src="./assets/eye.svg" alt="comment" />
+              <img src="./assets/eye-scanner 1.svg" alt="comment" />
             </div>
             <div
               class="flex lg:justify-start justify-center flex-col lg:items-start items-center"
             >
-              <p class="lg:text-3xl text-xl text-white mt-7 font-semibold">
+              <p
+                class="2xl:text-3xl lg:text-2xl text-xl text-white mt-7 font-semibold uppercase"
+              >
                 retina ready greaphics
               </p>
               <p class="text-white w-full lg:text-base text-sm mt-4">
@@ -501,7 +625,7 @@
 
     <!-- Carousel Section -->
 
-    <div class="min-h-screen py-22" id="screenshot">
+    <div class="py-22" id="screenshot">
       <div class="flex justify-center">
         <div class="flex flex-col items-center">
           <h3
@@ -509,7 +633,7 @@
           >
             Checkout Our App Interface Look
           </h3>
-          <div class="lg:w-1/3 w-full mt-8">
+          <div class="2xl:w-1/3 lg:w-1/2 w-full mt-8">
             <p
               class="text-center text-[#6C6C72] leading-7 text-sm lg:text-base px-6 lg:px-0"
             >
@@ -521,7 +645,7 @@
           </div>
         </div>
       </div>
-      <div class="swiper w-full h-[100vh] bg-gray">
+      <div class="swiper h-[80vh] md:h-[90vh] lg:h-[100vh] 2xl:h-[100vh]">
         <div class="swiper-wrapper">
           <div class="swiper-slide">
             <img src="./assets/001.svg" alt="" />
@@ -547,13 +671,16 @@
 
     <!--Download our app now-->
 
-    <section class="lg:px-22 px-6 lg:py-28" id="download">
-      <div class="flex lg:flex-row flex-col lg:gap-60 gap-12">
-        <div class="lg:w-1/2 w-full">
-          <h3 class="text-[1.86rem] font-bold pb-2">DOWNLOAD APP NOW</h3>
-          <div class="pr-5">
+    <section class="lg:px-22 px-6 lg:py-20" id="download">
+      <div class="flex lg:flex-row flex-col lg:gap-20 gap-12 items-center">
+        <!-- LEFT COLUMN -->
+        <div class="flex-1">
+          <h3 class="lg:text-[1.86rem] text-[2rem] font-bold pb-2">
+            DOWNLOAD APP NOW
+          </h3>
+          <div>
             <p
-              class="text-[#6C6C72] text-justify leading-7 text-sm lg:text-base"
+              class="text-[#6C6C72] text-justify leading-7 text-sm lg:text-base 3xl:text-lg 2xl:w-[80%]"
             >
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra
               nunc ante velit vitae. Est tellus vitae, nullam lobortis enim.
@@ -561,11 +688,14 @@
               Ullamcorper risus tempor, ac nunc libero urna, feugiat.
             </p>
           </div>
+
+          <!-- Store Buttons -->
           <div class="flex gap-8 mt-10">
             <img src="./assets/apple.svg" />
             <img src="./assets/google play.svg" />
           </div>
 
+          <!-- Stats -->
           <div class="mt-12 w-full flex lg:gap-8 gap-4 items-center">
             <div
               class="md:w-[10.6rem] w-[6rem] lg:h-[11rem] h-[6.2rem] lg:px-3 px-1 bg-[#5956E9] rounded-lg flex flex-col justify-center items-center lg:py-6 py-4 lg:gap-5 gap-2"
@@ -573,70 +703,62 @@
               <div>
                 <img src="./assets/download-2-fill.svg" alt="download" />
               </div>
-              <div>
-                <p class="text-white lg:text-base text-sm font-semibold">
-                  656888
-                </p>
-              </div>
-              <div>
-                <p class="text-white lg:text-base text-sm font-semibold">
-                  Download
-                </p>
-              </div>
+              <p class="text-white lg:text-base text-sm font-semibold">
+                656888
+              </p>
+              <p class="text-white lg:text-base text-sm font-semibold">
+                Download
+              </p>
             </div>
 
             <div
               class="md:w-[10.6rem] w-[6rem] lg:h-[11rem] h-[6.2rem] lg:px-3 px-1 bg-[#5956E9] rounded-lg flex flex-col justify-center items-center lg:py-6 py-4 lg:gap-5 gap-2"
             >
               <div>
-                <img src="./assets/like.svg" alt="download" />
+                <img src="./assets/like.svg" alt="likes" />
               </div>
-              <div>
-                <p class="text-white lg:text-base text-sm font-semibold mt-1">
-                  656888
-                </p>
-              </div>
-              <div>
-                <p class="text-white lg:text-base text-sm font-semibold">
-                  Likes
-                </p>
-              </div>
+              <p class="text-white lg:text-base text-sm font-semibold mt-1">
+                656888
+              </p>
+              <p class="text-white lg:text-base text-sm font-semibold">Likes</p>
             </div>
 
             <div
               class="md:w-[10.6rem] w-[6rem] lg:h-[11rem] h-[6.2rem] lg:px-3 px-1 bg-[#5956E9] rounded-lg flex flex-col justify-center items-center lg:py-6 py-4 lg:gap-5 gap-2"
             >
               <div>
-                <img src="./assets/star.svg" alt="download" />
+                <img src="./assets/star.svg" alt="rating" />
               </div>
-              <div>
-                <p class="text-white lg:text-base text-sm font-semibold">
-                  656888
-                </p>
-              </div>
-              <div>
-                <p class="text-white lg:text-base text-sm font-semibold">
-                  5-star rating
-                </p>
-              </div>
+              <p class="text-white lg:text-base text-sm font-semibold">
+                656888
+              </p>
+              <p class="text-white lg:text-base text-sm font-semibold">
+                5-star rating
+              </p>
             </div>
           </div>
         </div>
-        <div class="lg:w-1/2">
-          <img src="./assets/two phones.svg" />
+
+        <!-- RIGHT COLUMN -->
+        <div class="flex-1 flex justify-center">
+          <img
+            src="./assets/two phones.svg"
+            alt="phones"
+            class="min-w-full h-auto lg:max-w-[100px] xl:max-w-[600px] 2xl:max-w-[400px]"
+          />
         </div>
       </div>
     </section>
 
     <!---happy customers section-->
     <section
-      class="lg:px-22 px-6 lg:py-28 py-20 mt-10 h-auto w-full bg-[url('./assets/customers-bg.svg')] bg-cover bg-center"
+      class="lg:px-22 px-6 lg:py-20 py-20 mt-10 h-auto w-full bg-[url('./assets/customers-bg.svg')] bg-cover bg-center"
     >
       <div class="flex flex-col items-center">
         <h3 class="text-[1.86rem] font-bold pb-2 text-center text-white">
           OUR HAPPY CUSTOMERS
         </h3>
-        <div class="lg:w-1/3 w-full flex justify-center mt-4">
+        <div class="2xl:w-1/3 lg:w-1/2 w-full flex justify-center mt-4">
           <p
             class="text-white lg:text-base text-sm w-full text-center leading-7"
           >
@@ -647,8 +769,8 @@
         </div>
       </div>
 
-      <div class="swiper swiper2 -mt-[2rem] h-[70vh]">
-        <div class="swiper-wrapper">
+      <div class="swiper swiper2 2xl:-mt-[20rem] lg:-mt-[7rem]">
+        <div class="swiper-wrapper pb-20 pt-10 md:pt-0 md:pb-0">
           <div class="swiper-slide">
             <div
               class="slide w-[48rem] shadow-lg rounded-xl py-10 bg-white flex flex-col gap-5 justify-center items-center"
@@ -659,7 +781,31 @@
               <div class="flex flex-col items-center gap-2">
                 <p class="text-[1.86rem] font-bold">ANN LUBIN</p>
                 <p class="text-[1rem] font-semibold">CO-FOUNDER</p>
-                <div class="lg:px-8 md:w-full w-1/2 px-12">
+                <div class="lg:px-8 md:w-full  px-12">
+                  <p
+                    class="text-[#6C6C72] text-center lg:text-base text-sm lg:leading-7"
+                  >
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Viverra nunc ante velit vitae. Est tellus vitae, nullam
+                    lobortis enim. Faucibus amet etiam tincidunt rhoncus,
+                    ullamcorper velit. Ullamcorper risus tempor, ac nunc libero
+                    urna, feugiat.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div
+              class="slide w-[48rem] shadow-lg rounded-xl py-10 bg-white flex flex-col gap-5 justify-center items-center"
+            >
+              <div>
+                <img src="./assets/Profile Image.svg" alt="" />
+              </div>
+              <div class="flex flex-col items-center gap-2">
+                <p class="text-[1.86rem] font-bold">ANN LUBIN</p>
+                <p class="text-[1rem] font-semibold">CO-FOUNDER</p>
+                <div class="lg:px-8 md:w-full  px-12">
                   <p
                     class="text-[#6C6C72] text-center lg:text-base text-sm leading-7"
                   >
@@ -683,31 +829,7 @@
               <div class="flex flex-col items-center gap-2">
                 <p class="text-[1.86rem] font-bold">ANN LUBIN</p>
                 <p class="text-[1rem] font-semibold">CO-FOUNDER</p>
-                <div class="lg:px-8 md:w-full w-1/2 px-12">
-                  <p
-                    class="text-[#6C6C72] text-center lg:text-base text-sm leading-7"
-                  >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Viverra nunc ante velit vitae. Est tellus vitae, nullam
-                    lobortis enim. Faucibus amet etiam tincidunt rhoncus,
-                    ullamcorper velit. Ullamcorper risus tempor, ac nunc libero
-                    urna, feugiat.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div
-              class="slide w-[48rem] shadow-lg rounded-xl py-10 bg-white flex flex-col gap-5 justify-center items-center"
-            >
-              <div>
-                <img src="./assets/Profile Image.svg" alt="" />
-              </div>
-              <div class="flex flex-col items-center gap-2">
-                <p class="text-[1.86rem] font-bold">ANN LUBIN</p>
-                <p class="text-[1rem] font-semibold">CO-FOUNDER</p>
-                <div class="lg:px-8 md:w-full w-1/2 px-12">
+                <div class="lg:px-8 md:w-full px-12">
                   <p
                     class="text-[#6C6C72] text-center lg:text-base text-sm leading-7"
                   >
@@ -732,7 +854,7 @@
         <h3 class="text-[1.86rem] font-bold pb-5 text-center">
           OUR RECENT BLOG
         </h3>
-        <div class="lg:w-1/3 w-full">
+        <div class="2xl:w-1/3 lg:w-1/2 w-full">
           <p class="text-[#6C6C72] text-center lg:text-base text-sm leading-7">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra
             nunc ante velit vitae. Est tellus vitae, nullam lobortis enim.
@@ -796,11 +918,11 @@
     </section>
 
     <!--Footer-->
-    <footer class="bg-black lg:h-[542px] relative mt-40">
+    <footer class="bg-black lg:h-[542px] relative mt-40 pb-20">
       <!--contact box-->
       <div class="w-full flex justify-center">
         <div
-          class="bg-white absolute lg:-top-35 -top-45 lg:w-[73.1rem] md:w-[38rem] sm:w-[23rem] w-[21rem] lg:h-[14rem] h-[22rem] rounded-2xl shadow-lg block mx-auto my-10 border border-2 border-gray-200 px-12 lg:py-2 py-6"
+          class="bg-white absolute lg:-top-35 -top-45 2xl:w-[73.1rem] lg:w-[50rem] md:w-[38rem] sm:w-[23rem] w-[21rem] 2xl:h-[14rem] lg:h-[10rem] h-[22rem] rounded-2xl shadow-lg block mx-auto my-10 border border-2 border-gray-200 px-12 lg:py-2 py-6"
         >
           <div
             class="flex lg:flex-row flex-col justify-between items-center h-full w-full lg:gap-0 gap-6"
@@ -828,20 +950,20 @@
       </div>
 
       <div
-        class="flex lg:flex-row flex-col lg:justify-center lg:gap-40 gap-10 lg:items-center pl-6 lg:pl-0 items-start mt-60"
+        class="flex lg:flex-row flex-col lg:justify-center lg:gap-40 gap-10 lg:items-center px-6 lg:px-20 items-start mt-60"
       >
         <div>
-          <img src="./assets/logo.svg" class="lg:block hidden" />
-          <img src="./assets/mobile logo.svg" class="lg:hidden block -ml-2" />
+          <img src="./assets/logo.svg" class="md:block hidden" />
+          <img src="./assets/mobile logo.svg" class="md:hidden block -ml-2" />
           <p
-            class="text-white text-sm w-[20rem] lg:p-3 p-1 text-justify leading-6"
+            class="text-white text-sm 2xl:w-[20rem] lg:w-[15rem] lg:p-3 p-1 text-justify leading-6"
           >
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra
             nunc ante velit vitae. Est tellus vitae, nullam lobortis enim.
           </p>
         </div>
         <div class="text-white">
-          <p class="lg:text-4xl text-2xl uppercase font-medium pb-4">
+          <p class="2xl:text-4xl text-2xl uppercase font-medium pb-4">
             Quick Links
           </p>
           <ul>
@@ -852,20 +974,22 @@
           </ul>
         </div>
         <div class="text-white lg:-mt-14">
-          <p class="lg:text-4xl text-2xl uppercase font-medium pb-6">
+          <p class="2xl:text-4xl text-2xl uppercase font-medium pb-6">
             NEWSLETTER
           </p>
           <p>Subscribe our newsletter to get our latest update & news</p>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            class="w-[20rem] mt-7 lg:p-2 p-3 border border-gray-200 rounded-md bg-white mt-4"
-          />
-          <button
-            class="bg-[#5956E9] text-white p-2 rounded-md lg:-left-23 left-58 -top-11 lg:top-0 relative"
-          >
-            Subscribe
-          </button>
+          <div class="relative w-full 2xl:w-[20rem] lg:w-[17rem] mt-7">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              class="w-full p-3 pr-20 border border-gray-200 rounded-md bg-white"
+            />
+            <button
+              class="absolute top-1/2 right-2 -translate-y-1/2 bg-[#5956E9] text-white px-4 py-2 rounded-md"
+            >
+              Subscribe
+            </button>
+          </div>
         </div>
       </div>
     </footer>
